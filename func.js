@@ -61,11 +61,11 @@ const check_match = () => {
 const check_for_winner = () => {
   let res = check_match()
   if (res == player) {
-    winner.innerText = "Winner is player!!";
+    winner.innerText = "You Won!";
     winner.classList.add("playerWin");
     board_full = true
   } else if (res == computer) {
-    winner.innerText = "Winner is computer";
+    winner.innerText = "Computer Won!";
     winner.classList.add("computerWin");
     board_full = true
   } else if (board_full) {
