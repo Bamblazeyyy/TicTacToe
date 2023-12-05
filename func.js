@@ -1,80 +1,115 @@
-const playArea = document.querySelector('.play-area');
-const winnerText = document.getElementById('winner');
-const resetButton = document.querySelector('button');
+const player1 = "X";
+const player2 = "O";
 
-let currentPlayer = 'X';
-let gameBoard = ['', '', '', '', '', '', '', '', ''];
-let gameActive = true;
+let currentPlayer = player1;
+let boardFull = false;
+let playBoard = ["", "", "", "", "", "", "", "", ""];
 
-function handleCellClick(index) {
-    if (gameBoard[index] === '' && gameActive) {
-        gameBoard[index] = currentPlayer;
-        updateGameBoard();
-        checkForWinner();
-        togglePlayer();
+const boardContainer = document.querySelector(".play-area");
+const winnerStatement = document.getElementById("winner");
+
+const checkBoardComplete = () => {
+  let flag = true;
+  playBoard.forEach(element => {
+    if (element !== player1 && element !== player2) {
+      flag = false;
     }
-}
+  });
+  boardFull = flag;
+};
 
-function updateGameBoard() {
-    playArea.innerHTML = '';
-    gameBoard.forEach((cell, index) => {
-        const block = document.createElement('div');
-        block.classList.add('block');
-        block.textContent = cell;
-        block.addEventListener('click', () => handleCellClick(index));
-        playArea.appendChild(block);
-    });
-}
+const checkLine = (a, b, c) => {
+  return (
+    playBoard[a] === playBoard[b] &&
+    playBoard[b] === playBoard[c] &&
+    (playBoard[a] === player1 || playBoard[a] === player2)
+  );
+};
 
-function checkForWinner() {
-    const winningCombinations = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-
-    for (const combination of winningCombinations) {
-        const [a, b, c] = combination;
-        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-            gameActive = false;
-            highlightWinner(combination);
-            displayWinner(`${currentPlayer} wins!`);
-            return;
-        }
+const checkMatch = () => {
+  for (let i = 0; i < 9; i += 3) {
+    if (checkLine(i, i + 1, i + 2)) {
+      document.querySelector(`#block_${i}`).classList.add("win");
+      document.querySelector(`#block_${i + 1}`).classList.add("win");
+      document.querySelector(`#block_${i + 2}`).classList.add("win");
+      return playBoard[i];
     }
-
-    if (!gameBoard.includes('')) {
-        gameActive = false;
-        displayWinner('It\'s a draw!');
+  }
+  for (let i = 0; i < 3; i++) {
+    if (checkLine(i, i + 3, i + 6)) {
+      document.querySelector(`#block_${i}`).classList.add("win");
+      document.querySelector(`#block_${i + 3}`).classList.add("win");
+      document.querySelector(`#block_${i + 6}`).classList.add("win");
+      return playBoard[i];
     }
-}
+  }
+  if (checkLine(0, 4, 8)) {
+    document.querySelector("#block_0").classList.add("win");
+    document.querySelector("#block_4").classList.add("win");
+    document.querySelector("#block_8").classList.add("win");
+    return playBoard[0];
+  }
+  if (checkLine(2, 4, 6)) {
+    document.querySelector("#block_2").classList.add("win");
+    document.querySelector("#block_4").classList.add("win");
+    document.querySelector("#block_6").classList.add("win");
+    return playBoard[2];
+  }
+  return "";
+};
 
-function togglePlayer() {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-}
+const checkForWinner = () => {
+  const result = checkMatch();
+  if (result === player1) {
+    winnerStatement.innerText = "Player 1 Wins!";
+    winnerStatement.classList.add("playerWin");
+    boardFull = true;
+  } else if (result === player2) {
+    winnerStatement.innerText = "Player 2 Wins!";
+    winnerStatement.classList.add("playerWin");
+    boardFull = true;
+  } else if (boardFull) {
+    winnerStatement.innerText = "It's a Draw!";
+    winnerStatement.classList.add("draw");
+  }
+};
 
-function resetBoard() {
-    gameBoard = ['', '', '', '', '', '', '', '', ''];
-    gameActive = true;
-    winnerText.textContent = '';
-    updateGameBoard();
-}
+const renderBoard = () => {
+  boardContainer.innerHTML = "";
+  playBoard.forEach((e, i) => {
+    boardContainer.innerHTML += `<div id="block_${i}" class="block" onclick="addMove(${i})">${playBoard[i]}</div>`;
+    if (e === player1 || e === player2) {
+      document.querySelector(`#block_${i}`).classList.add("occupied");
+    }
+  });
+};
 
-function displayWinner(message) {
-    winnerText.textContent = message;
-}
+const addMove = index => {
+  if (!boardFull && playBoard[index] === "") {
+    playBoard[index] = currentPlayer;
+    gameLoop();
+  }
+};
 
-function highlightWinner(combination) {
-    combination.forEach(index => {
-        playArea.children[index].classList.add('win');
-    });
-}
+const gameLoop = () => {
+  renderBoard();
+  checkBoardComplete();
+  checkForWinner();
+  togglePlayer();
+};
 
-resetButton.addEventListener('click', resetBoard);
+const togglePlayer = () => {
+  currentPlayer = currentPlayer === player1 ? player2 : player1;
+};
 
-updateGameBoard();
+const resetBoard = () => {
+  playBoard = ["", "", "", "", "", "", "", "", ""];
+  boardFull = false;
+  winnerStatement.classList.remove("playerWin");
+  winnerStatement.classList.remove("draw");
+  winnerStatement.innerText = "";
+  renderBoard();
+};
+
+// Initial render
+renderBoard();
