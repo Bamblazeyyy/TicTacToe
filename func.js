@@ -1,123 +1,80 @@
-const player = "O";
-const computer = "X";
+const playArea = document.querySelector('.play-area');
+const winnerText = document.getElementById('winner');
+const resetButton = document.querySelector('button');
 
-let board_full = false;
-let play_board = ["", "", "", "", "", "", "", "", ""];
+let currentPlayer = 'X';
+let gameBoard = ['', '', '', '', '', '', '', '', ''];
+let gameActive = true;
 
-const board_container = document.querySelector(".play-area");
-const winner_statement = document.getElementById("winner");
-
-check_board_complete = () => {
-  let flag = true;
-  play_board.forEach(element => {
-    if (element != player && element != computer) {
-      flag = false;
+function handleCellClick(index) {
+    if (gameBoard[index] === '' && gameActive) {
+        gameBoard[index] = currentPlayer;
+        updateGameBoard();
+        checkForWinner();
+        togglePlayer();
     }
-  });
-  board_full = flag;
-};
-
-
-const check_line = (a, b, c) => {
-  return (
-    play_board[a] == play_board[b] &&
-    play_board[b] == play_board[c] &&
-    (play_board[a] == player || play_board[a] == computer)
-  );
-};
-
-const check_match = () => {
-  for (i = 0; i < 9; i += 3) {
-    if (check_line(i, i + 1, i + 2)) {
-      document.querySelector(`#block_${i}`).classList.add("win");
-      document.querySelector(`#block_${i + 1}`).classList.add("win");
-      document.querySelector(`#block_${i + 2}`).classList.add("win");
-      return play_board[i];
-    }
-  }
-  for (i = 0; i < 3; i++) {
-    if (check_line(i, i + 3, i + 6)) {
-      document.querySelector(`#block_${i}`).classList.add("win");
-      document.querySelector(`#block_${i + 3}`).classList.add("win");
-      document.querySelector(`#block_${i + 6}`).classList.add("win");
-      return play_board[i];
-    }
-  }
-  if (check_line(0, 4, 8)) {
-    document.querySelector("#block_0").classList.add("win");
-    document.querySelector("#block_4").classList.add("win");
-    document.querySelector("#block_8").classList.add("win");
-    return play_board[0];
-  }
-  if (check_line(2, 4, 6)) {
-    document.querySelector("#block_2").classList.add("win");
-    document.querySelector("#block_4").classList.add("win");
-    document.querySelector("#block_6").classList.add("win");
-    return play_board[2];
-  }
-  return "";
-};
-
-const check_for_winner = () => {
-  let res = check_match()
-  if (res == player) {
-    winner.innerText = "You Won!";
-    winner.classList.add("playerWin");
-    board_full = true
-  } else if (res == computer) {
-    winner.innerText = "Computer Won!";
-    winner.classList.add("computerWin");
-    board_full = true
-  } else if (board_full) {
-    winner.innerText = "Draw!";
-    winner.classList.add("draw");
-  }
-};
-
-
-const render_board = () => {
-  board_container.innerHTML = ""
-  play_board.forEach((e, i) => {
-    board_container.innerHTML += `<div id="block_${i}" class="block" onclick="addPlayerMove(${i})">${play_board[i]}</div>`
-    if (e == player || e == computer) {
-      document.querySelector(`#block_${i}`).classList.add("occupied");
-    }
-  });
-};
-
-const game_loop = () => {
-  render_board();
-  check_board_complete();
-  check_for_winner();
 }
 
-const addPlayerMove = e => {
-  if (!board_full && play_board[e] == "") {
-    play_board[e] = player;
-    game_loop();
-    addComputerMove();
-  }
-};
+function updateGameBoard() {
+    playArea.innerHTML = '';
+    gameBoard.forEach((cell, index) => {
+        const block = document.createElement('div');
+        block.classList.add('block');
+        block.textContent = cell;
+        block.addEventListener('click', () => handleCellClick(index));
+        playArea.appendChild(block);
+    });
+}
 
-const addComputerMove = () => {
-  if (!board_full) {
-    do {
-      selected = Math.floor(Math.random() * 9);
-    } while (play_board[selected] != "");
-    play_board[selected] = computer;
-    game_loop();
-  }
-};
+function checkForWinner() {
+    const winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
 
-const reset_board = () => {
-  play_board = ["", "", "", "", "", "", "", "", ""];
-  board_full = false;
-  winner.classList.remove("playerWin");
-  winner.classList.remove("computerWin");
-  winner.classList.remove("draw");
-  winner.innerText = "";
-  render_board();
-};
+    for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+            gameActive = false;
+            highlightWinner(combination);
+            displayWinner(`${currentPlayer} wins!`);
+            return;
+        }
+    }
 
-//initial render
-render_board();
+    if (!gameBoard.includes('')) {
+        gameActive = false;
+        displayWinner('It\'s a draw!');
+    }
+}
+
+function togglePlayer() {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+}
+
+function resetBoard() {
+    gameBoard = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+    winnerText.textContent = '';
+    updateGameBoard();
+}
+
+function displayWinner(message) {
+    winnerText.textContent = message;
+}
+
+function highlightWinner(combination) {
+    combination.forEach(index => {
+        playArea.children[index].classList.add('win');
+    });
+}
+
+resetButton.addEventListener('click', resetBoard);
+
+updateGameBoard();
