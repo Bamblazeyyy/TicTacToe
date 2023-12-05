@@ -1,130 +1,135 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  .container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #0b0b0b;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa; /* Light gray background */
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5em;
+  color: #3498db; /* Blue color */
+}
+
+h2 {
+  margin-top: 1em;
+  font-size: 2rem;
+  margin-bottom: 0.5em;
+  color: #34495e; /* Dark gray color */
+}
+
+.play-area {
+  display: grid;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  grid-template-columns: auto auto auto;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+}
+
+.block {
+  display: flex;
+  width: 100px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  border: 3px solid #000;
+  transition: background 0.2s ease-in-out;
+}
+
+.block:hover {
+  cursor: pointer;
+  background: #ecf0f1; /* Light gray background on hover */
+}
+
+.occupied:hover {
+  background: #e74c3c; /* Red background on hover */
+}
+
+.win {
+  background: #57a1c5; /* Light blue background for win */
+}
+
+.win:hover {
+  background: #ecf0f1; /* Light gray background on hover */
+}
+
+#block_0,
+#block_1,
+#block_2,
+#block_3,
+#block_6 {
+  border-top: none;
+}
+
+#block_0,
+#block_3,
+#block_6,
+#block_7,
+#block_8 {
+  border-left: none;
+}
+
+#block_6,
+#block_7,
+#block_8 {
+  border-bottom: none;
+}
+
+#block_2,
+#block_5,
+#block_8 {
+  border-right: none;
+}
+
+button {
+  outline: none;
+  background: #3498db; /* Blue background for buttons */
+  padding: 12px 40px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff; /* White text */
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  cursor: pointer;
+  background: #2980b9; /* Darker blue background on hover */
+  color: white;
+}
+
+.playerWin {
+  color: #005380; /* Dark blue color for player win message */
+}
+
+.computerWin {
+  color: #e74c3c; /* Red color for computer win message */
+}
+
+.draw {
+  color: #d35400; /* Orange color for draw message */
+}
+
+@media only screen and (max-width: 600px) {
+
   h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5em;
-    color: rgb(22, 121, 186);
-  }
-  
-  h2 {
-    margin-top: 1em;
-    font-size: 2rem;
-    margin-bottom: 0.5em;
-  }
-  
-  .play-area {
-    display: grid;
-    box-shadow: 0 0 20px rgba(0,139,253,0.25);
-    grid-template-columns: auto auto auto;
-    background-color: #fff;
-    padding: 20px;
-  }
-  
-  .block {
-    display: flex;
-    width: 100px;
-    height: 100px;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    font-weight: bold;
-    border: 3px solid black;
-    transition: background 0.2s ease-in-out;
-  }
-  
-  .block:hover {
-    cursor: pointer;
-    background: #0ff30f;
-  }
-  
-  .occupied:hover {
-    background: #ff3a3a;
-  }
-  
-  .win {
-    background: rgb(85, 152, 200)
-  }
-  
-  .win:hover {
-    background: #0ff30f;
-  }
-  
-  #block_0,
-  #block_1,
-  #block_2 {
-    border-top: none;
-  }
-  
-  #block_0,
-  #block_3,
-  #block_6 {
-    border-left: none;
-  }
-  
-  #block_6,
-  #block_7,
-  #block_8 {
-    border-bottom: none;
-  }
-  
-  #block_2,
-  #block_5,
-  #block_8 {
-    border-right: none;
-  }
-  
-  button {
-    outline: none;
-    background: rgb(8, 88, 208);
-    padding: 12px 40px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #fff;
-    border: none;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  button:hover {
-    cursor: pointer;
-    background: rgb(43, 107, 139);
-    color: white;
-  }
-  
-  .playerWin {
-    color: rgb(0, 83, 128);
-  }
-  
-  .computerWin {
-    color: red;
-  }
-  
-  .draw {
-    color: orangered;
-  }
-  
-  @media only screen and (max-width: 600px) {
-  
-    h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       margin-bottom: 0.5em;
-    }
-  
-    h2 {
-      margin-top: 1em;
-      font-size: 1.3rem;
-    }
   }
+
+  h2 {
+      margin-top: 1em;
+      font-size: 1.2rem;
+  }
+}
