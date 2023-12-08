@@ -74,6 +74,7 @@ const checkForWinner = () => {
   }
 };
 
+// Update the loop limits in the renderBoard function in app.js
 const renderBoard = () => {
   boardContainer.innerHTML = "";
   playBoard.forEach((e, i) => {
@@ -83,6 +84,7 @@ const renderBoard = () => {
     }
   });
 };
+
 
 const addMove = index => {
   if (!boardFull && playBoard[index] === "") {
