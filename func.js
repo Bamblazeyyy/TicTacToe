@@ -69,7 +69,7 @@ const checkForWinner = () => {
     winnerStatement.classList.add("playerWin");
     boardFull = true;
   } else if (boardFull) {
-    winnerStatement.innerText = "It's a Draw!";
+    winnerStatement.innerText = "It's a Tie!";
     winnerStatement.classList.add("draw");
   }
 };
