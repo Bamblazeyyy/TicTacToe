@@ -107,7 +107,7 @@ button {
 button:hover {
   cursor: pointer;
   background: #777777; /* Darker blue background on hover */
-  color: rgb(113, 111, 111);
+  color: rgb(3, 3, 3);
 }
 
 .playerWin {
