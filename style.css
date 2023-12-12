@@ -106,7 +106,7 @@ button {
 
 button:hover {
   cursor: pointer;
-  background: #2980b9; /* Darker blue background on hover */
+  background: #777777; /* Darker blue background on hover */
   color: rgb(113, 111, 111);
 }
 
