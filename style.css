@@ -111,15 +111,15 @@ button:hover {
 }
 
 .playerWin {
-  color: #005380; /* Dark blue color for player win message */
+  color: #f7f9f9; /* Dark blue color for player win message */
 }
 
 .computerWin {
-  color: #e74c3c; /* Red color for computer win message */
+  color: #444242; /* Red color for computer win message */
 }
 
 .draw {
-  color: #d35400; /* Orange color for draw message */
+  color: #0c0c0c; /* Orange color for draw message */
 }
 
 @media only screen and (max-width: 600px) {
