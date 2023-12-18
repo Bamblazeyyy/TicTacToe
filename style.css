@@ -54,11 +54,11 @@ h2 {
 }
 
 .occupied:hover {
-  background: #e74c3c; /* Red background on hover */
+  background: #54504f; /* Red background on hover */
 }
 
 .win {
-  background: #57a1c5; /* Light blue background for win */
+  background: #7f8183; /* Light blue background for win */
 }
 
 .win:hover {
